@@ -1,5 +1,5 @@
 site_name: City Building Energy Model (CityBEM) V2
-
+site_url: https://saeed-rayegan.github.io/CityBEM-Docs/ # Added site URL for GitHub Pages
 theme:
   name: material
   title: CityBEM
