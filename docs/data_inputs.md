@@ -4,17 +4,12 @@
 
 The **figure below** presents the overall CityBEM V2 workflow, illustrating how diverse geospatial, archetype, and material datasets are integrated and processed into unified **citywide building data arrays**.
 
-<hr>
-
-<div align="center">
-  <img src="assets/citybem_workflow.png" alt="CityBEM Workflow Diagram" width="100%">
-</div>
-
-<hr>
+<figure markdown>
+  ![CityBEM V2 Complete Workflow](assets/citybem_workflow.png){ width="100%" }
+  <figcaption>CityBEM integrates GIS, archetypes, and 3D geometry into unified data arrays.</figcaption>
+</figure>
 
 This workflow captures the full input-management pipeline in CityBEM — from GIS preprocessing and archetype assignment to geometry extraction and simulation-ready data generation.
-
-<hr>
 
 ### 1.1 Geospatial Matching (QGIS)
 !!! info ""
@@ -62,9 +57,10 @@ This page provides a detailed description of each required input file, including
 
 `Input_City_scale_geometry_CityBEM.stl`
 
-<div align="center">
-  <img src="assets/input_geometry_stl.png" alt="CityBEM STL Geometry Example" width="100%">
-</div>
+<figure markdown>
+  ![STL Geometry Input](assets/input_geometry_stl.png){ width="100%" loading=lazy }
+  <figcaption>3D urban building geometry using SCII STL files</figcaption>
+</figure>
 
 ---
 
@@ -516,9 +512,10 @@ Each row represents a **material type** commonly used in regional construction (
 
 ### **`Input_weatherdata.txt`**
 
-<div align="center">
-  <img src="/assets/input_weatherdata.png" alt="Weather Data Example" width="120%">
-</div>
+<figure markdown>
+  ![Weather Data Structure](assets/input_weatherdata.png){ width="100%" loading=lazy }
+  <figcaption>CityBEM hourly weather data format (EPW-derived)</figcaption>
+</figure>
 
 ---
 
