@@ -18,6 +18,8 @@ theme:
 
 extra:
   alternate_site_name: CityBEM
+  math:
+    enable: true
 
 extra_css:
   - stylesheets/extra.css
