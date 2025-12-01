@@ -5,7 +5,7 @@ Welcome to the official documentation of CityBEM V2 — an advanced, lightweight
 ### CityBEM Overview
 
 <div align="center">
-  <img src="../assets/citybem_overview.png" alt="City-scale simulation example" width="100%">
+  <img src="assets/citybem_overview.png" alt="City-scale simulation example" width="100%">
 </div>
 
 ---
