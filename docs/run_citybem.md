@@ -122,6 +122,11 @@ Each directory becomes an independent simulation environment.
 
 ### **:material-cog-play: Step 3 — Use Python to automate parallel runs**
 
+<figure markdown>
+  ![Parallel Simulation Workflow](assets/run_citybem_parallel_workflow.png){ width="50%" loading=lazy }
+  <figcaption>Parallel execution workflow using Python</figcaption>
+</figure>
+
 Example Python script snippet:
 
 ```python

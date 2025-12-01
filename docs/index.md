@@ -4,15 +4,17 @@ Welcome to the official documentation of CityBEM V2 — an advanced, lightweight
 
 ### CityBEM Overview
 
-<div align="center">
-  <img src="assets/citybem_overview.png" alt="CityBEM city-scale simulation" width="100%"/>
-</div>
+<figure markdown>
+  ![CityBEM city-scale simulation](assets/citybem_overview.png){ width="100%" loading=lazy }
+  <figcaption>CityBEM city-scale simulation overview</figcaption>
+</figure>
 
 ---
 
-<div align="center">
-  <img src="assets/citybem_overview2.png" alt="City-scale simulation example" width="100%">
-</div>
+<figure markdown>
+  ![City-scale simulation example](assets/citybem_overview2.png){ width="100%" loading=lazy }
+  <figcaption>City-scale simulation using CityBEM</figcaption>
+</figure>
 
 ---
 
