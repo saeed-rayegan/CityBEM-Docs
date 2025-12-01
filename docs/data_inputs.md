@@ -158,9 +158,10 @@ Below are recommended platforms to help users **generate, edit, or validate** bu
 
 ## 1.1 `Input_City_scale_building_info.txt`
 
-<div align="center">
-  <img src="assets/input_building_info.png" alt="CityBEM Building Info Example" width="80%">
-</div>
+<figure markdown>
+  ![Weather Data Structure](assets/input_weatherdata.png){ width="100%" loading=lazy }
+  <figcaption>CityBEM hourly weather data format (EPW-derived)</figcaption>
+</figure>
 
 ### Purpose
 
