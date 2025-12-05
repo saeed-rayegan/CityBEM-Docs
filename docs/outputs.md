@@ -6,7 +6,7 @@ Users can flexibly choose which variables to export to support storage efficienc
 All outputs are controlled through:
 
 ```
-Input_City_Scale_Result_Selection.txt
+:material-file-document-outline: Input_City_Scale_Result_Selection.txt
 ```
 
 In this configuration file, each output variable is assigned **Y (Yes)** or **N (No)** to determine whether it will be:

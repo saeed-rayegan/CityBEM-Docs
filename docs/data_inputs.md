@@ -157,11 +157,11 @@ Below are recommended platforms to help users **generate, edit, or validate** bu
 :material-file-document-outline: `Input_City_scale_building_info.txt`
 
 <figure markdown>
-  ![City-scale building information input](assets/input_City_scale_building_info.png){ width="100%" loading=lazy }
+  ![City-scale building information input](assets/input_city_scale_building_info.png){ width="100%" loading=lazy }
   <figcaption>Building information format</figcaption>
 </figure>
 
-### 2.1 Purpose
+### Purpose
 
 This file defines the **core metadata** for every building in the simulation domain. It acts as the **central index** that links:
 - GIS/OSM geometry
@@ -170,7 +170,7 @@ This file defines the **core metadata** for every building in the simulation dom
 
 Each row corresponds to **one building**.
 
-### 2.2 Data Structure
+### Data Structure
 
 <div align="center">
 
@@ -304,7 +304,7 @@ Each row corresponds to **one building**.
     👉 [Download QGIS](https://qgis.org/ "QGIS — Official Website"){target="_blank"}  
 
 
-### 2.3 Why this Data?
+### Why this Data?
 
 - Reads all building rows and constructs an internal **building list/array**.
 - For each building:
@@ -354,7 +354,7 @@ CityBEM V2 uses multiple archetype dimensions to describe buildings:
 :material-file-document-outline: `Input_City_scale_archetype_year.txt`
 
 <figure markdown>
-  ![Construction-Year Archetype Table](assets/input_City_scale_archetype_year.png){ width="100%" loading=lazy }
+  ![Construction-Year Archetype Table](assets/input_city_scale_archetype_year.png){ width="100%" loading=lazy }
   <figcaption>Mapping construction-year classes to envelope and infiltration parameters in CityBEM</figcaption>
 </figure>
 
@@ -419,7 +419,7 @@ The construction-year archetype defines effective thermal characteristics used f
 
 ---
 
-#### :material-cog-outline: How CityBEM Uses This File
+#### :material-cog-outline: Why this Data?
 
 !!! tip ""
     CityBEM automatically links each building to the correct archetype using  
@@ -443,63 +443,150 @@ This ensures **consistent, scalable, and physically meaningful** building charac
 ### 3.2 Usage Type Archetype  
 :material-file-document-outline: `Input_City_scale_archetype_usage_type.txt`
 
-<div align="center">
-  <img src="assets/input_usage_type.png" alt="Usage Type Archetype Example" width="80%">
+<figure markdown>
+  ![Usage Type Archetype Table](assets/input_city_scale_archetype_usage_type.png){ width="100%" loading=lazy }
+  <figcaption>Usage-type archetype parameters in CityBEM</figcaption>
+</figure>
+
+#### Purpose
+
+This file defines the **operational behavior** and **internal-load characteristics** for each building usage type, including:
+
+- Residential  
+- Office  
+- Retail  
+- Educational  
+- Healthcare  
+- Others  
+
+Each row represents a usage-type archetype linked via `usage_type_code` in `Input_City_scale_building_info.txt`.
+
+---
+
+#### Key Parameters and Their Roles
+
+???+ info "Geometry & Structural"
+    <i class="md-icon">󰕤</i> Applicable floor range  
+    <i class="md-icon">󰉢</i> Typical floor height  
+    <i class="md-icon">󱢱</i> Used to compute zone volume and number of stacked zones  
+
+???+ success "Occupancy & Schedules"
+    👤 Occupancy schedule ID  
+    👥 Maximum occupancy density (person/m²)
+
+???+ abstract "HVAC Operation"
+    🌡️ Heating/cooling setpoints (occupied & unoccupied)  
+    ⚡ Heating system efficiency and cooling COP  
+    🌬️ Specific fan power  
+    💨 Minimum outdoor airflow per person/floor area *(ASHRAE 62.1)*
+
+???+ tip "Envelope-Related Operational Settings"
+    🪟 Window-to-wall ratio (WWR)  
+    🏠 Fraction of floor area that is conditioned/heated
+
+---
+
+#### Why this Data?
+
+CityBEM uses this file to assign **realistic operational profiles** to each building:
+
+- Internal gains (occupants, lighting, appliances)  
+- Hourly schedules  
+- Heating and cooling setpoints  
+- HVAC efficiencies and ventilation rates  
+
+These archetypes strongly influence:
+
+- **Annual heating/cooling energy demand**  
+- **Peak loads**  
+- **Indoor thermal comfort**  
+
+They define the **operational identity** of each building in the simulation.
+
+---
+
+### 3.3 Internal Heat Gains  
+:material-file-document-outline: `Input_City_scale_archetype_IHG.txt`
+
+<figure markdown>
+  ![Internal Heat Gains Table](assets/input_city_scale_archetype_ihg.png){ width="100%" loading=lazy }
+  <figcaption>Internal heat gain archetype parameters</figcaption>
+</figure>
+
+---
+
+<div class="admonition info">
+<p class="admonition-title">Flexible Weekly Schedule Definition</p>
+
+CityBEM provides <strong>full customization of internal heat-gain schedules</strong> for every day of the week.  
+Users can define:
+
+<ul>
+  <li>Distinct behaviors for <strong>Saturday</strong>, <strong>Sunday</strong>, and <strong>workdays</strong></li>
+  <li>Any number of daily <strong>time periods</strong></li>
+  <li>The keyword <code>all</code> when a schedule applies to the full 24-hour day</li>
+  <li>Time periods labeled as either <strong>occupied</strong> or <strong>unoccupied</strong></li>
+</ul>
+
+This flexibility supports detailed modeling of real building operation, such as  
+weekend reductions, night-time shutdowns, peak-hour activity spikes, or extended commercial hours.
 </div>
 
-### Purpose
+---
 
-This file defines **operational and internal-load characteristics** for each building usage type, such as:
-- Residential
-- Office
-- Retail
-- Educational
-- Healthcare
-- Etc.
+#### Purpose
 
-Each row corresponds to a **usage-type archetype** referenced by `usage_type_code` in `Input_City_scale_building_info.txt`.
+This file defines the **time-varying internal heat gains** associated with each usage-type or sub-category  
+(e.g., residential weekday vs residential weekend, office, school, laboratory).
 
-### Key Parameters and Their Roles
+Each row corresponds to an **IHG case**, which can be linked to a usage-type archetype.
 
-Typical columns include:
+---
+#### Typical Parameters
 
-- **Geometric/structural parameters**
-  - Floor range (minimum and maximum number of floors where this usage type applies)
-  - Floor height `Hf` (m), used to compute zone volume and number of thermal zones
+<div class="grid" markdown>
 
-- **Occupancy and schedules**
-  - Occupancy schedule ID (linking to schedule definitions used for internal gains)
-  - Maximum occupancy density (person/m²)
-  - Sensible and latent heat gains per person (W/person)
-  - Activity levels may be defined or referenced elsewhere, depending on implementation
+<div class="card" markdown>
+##### Occupancy
+- Fractional occupancy schedules  
+- Sensible heat gain per person (W/person)  
+</div>
 
-- **HVAC parameters**
-  - Heating and cooling setpoint temperatures for:
-    - Occupied periods
-    - Unoccupied periods (setback/set-up)
-  - HVAC system type or operation mode (e.g., heating-only, cooling-only, full HVAC)
-  - HVAC efficiencies:
-    - Seasonal performance factor (SPF) for heat pumps
-    - Coefficient of performance (COP) for chillers or cooling systems
+<div class="card" markdown>
+##### Equipment
+- Equipment load schedules  
+- Maximum plug/equipment density (W/m²)
+</div>
 
-- **Envelope-related operational parameters**
-  - Window-to-wall ratio (WWR) for typical façade design per usage type
-  - Heated floor area ratio (fraction of building floor area that is conditioned/heated)
+<div class="card" markdown>
+##### Lighting
+- Lighting schedules  
+- Lighting power density (W/m²)
+</div>
 
-### Why this Data?
+</div>
 
-- For each building, CityBEM:
-  - Reads its `usage_type_code`
-  - Assigns the corresponding internal loads, schedules, HVAC setpoints, and system efficiencies
-- These archetypes determine:
-  - Internal gains (occupants, lighting, appliances) as a function of time
-  - The target indoor temperature for the HVAC control
-  - Whether a zone is actively heated/cooled or allowed to float
+---
 
-This file is central to **operational behavior** and has a strong influence on:
-- Annual energy demand
-- Peak loads
-- Comfort-related variables (indoor temperature, humidity)
+#### Why this Data?
+
+<div class="admonition important">
+<p class="admonition-title">Role in Building Physics</p>
+
+This file governs how internal heat sources vary throughout the day and year.  
+At each timestep, CityBEM:
+
+- Reads occupancy, lighting, and plug-load schedules  
+- Converts them into sensible and latent components  
+- Applies them to the thermal and moisture balance of each zone  
+
+Accurate IHG profiles are critical for reproducing:
+
+- Daily temperature fluctuations  
+- HVAC heating/cooling loads  
+- Peak electricity demand  
+- Differences between weekdays, weekends, and seasonal periods  
+</div>
 
 ---
 
@@ -528,7 +615,7 @@ Each row represents a **slab type**, which may be linked to specific usage types
   - Conductivity (W/m·K)
   - Volumetric heat capacity (J/m³·K)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - Converts layer definitions into:
   - Overall thermal resistance / capacitance
@@ -570,47 +657,6 @@ Each row corresponds to a **wall material configuration**, which may be associat
 - Works in combination with the **year archetype** file:
   - The year archetype provides effective U-values and high-level properties.
   - This material file refines the internal representation if detailed mass modeling is required.
-
----
-
-## 2.5 Internal Heat Gains (IHG)  
-:material-file-document-outline: `Input_City_scale_archetype_IHG.txt`
-
-<div align="center">
-  <img src="assets/input_IHG.png" alt="Internal Heat Gains Example" width="80%">
-</div>
-
-### Purpose
-
-This file specifies **detailed internal heat gain profiles** for each usage type or sub-case (e.g., residential weekday vs. weekend, office, school, etc.).
-
-Each row usually represents an **IHG case** that can be linked to a usage-type archetype.
-
-### Typical Parameters
-
-- **Occupancy-related**
-  - Occupancy schedules (fraction of peak occupancy over time)
-  - Sensible heat gain per person (W/person)
-  - Latent heat gain per person (W/person)
-
-- **Appliances and plug loads**
-  - Equipment schedules (fraction of maximum load)
-  - Maximum equipment power density (W/m²)
-
-- **Lighting**
-  - Lighting schedules
-  - Lighting power density (W/m²)
-  - Radiative vs. convective fraction of lighting gains (if considered)
-
-### Why this Data?
-
-- Reads schedule IDs and mapping definitions to generate **time-varying internal loads**.
-- At each simulation timestep, the framework:
-  - Evaluates occupancy, lighting, and appliance loads
-  - Splits them into sensible and latent components (if modeled)
-  - Injects them into the zone energy and moisture balance
-
-This file is essential for capturing **daily and seasonal patterns** of internal gains.
 
 ---
 
@@ -669,7 +715,7 @@ Each row represents a **material type** commonly used in regional construction (
 - Density (kg/m³)
 - Embodied emission factor for life cycle stages A1–A3 (e.g., kgCO₂e/m³ or kgCO₂e/kg)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - Combined with envelope and material layer definitions (thickness, area), CityBEM can:
   - Estimate **material quantities** at the building scale
@@ -1070,7 +1116,7 @@ Each row typically represents one **output variable**.
 - GHG emissions (operational and, if implemented, embodied)
 - Rooftop PV outputs (power, energy, self-sufficiency indices, export/import flows)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - During the simulation, only variables flagged for output are:
   - Computed at the detailed reporting level
