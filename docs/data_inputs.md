@@ -11,23 +11,23 @@ The **figure below** presents the overall CityBEM V2 workflow, illustrating how 
 
 This workflow captures the full input-management pipeline in CityBEM — from GIS preprocessing and archetype assignment to geometry extraction and simulation-ready data generation.
 
-### 1. Geospatial Matching (QGIS)
+### Geospatial Matching (QGIS)
 !!! info ""
     🗺️ Integrates GIS building footprints with attributes such as height, land-use, construction year, and parcel data.
 
-### 2. Archetype Assignment
+### Archetype Assignment
 !!! info ""
     🏢 Assigns thermal, material, occupancy, and HVAC characteristics to each building through archetype mapping.
 
-### 3. 3D Geometry Processing
+### 3D Geometry Processing
 !!! info ""
     📐 Computes surface geometry (area, tilt, azimuth, façade grouping, roof type) required for thermal and solar modeling.
 
-### 4. Weather Data Preparation
+### Weather Data Preparation
 !!! info ""
     🌦️ Converts hourly meteorological data to the simulation time step and prepares dynamic boundary conditions.
 
-### 5. Citywide Building Data Arrays
+### Citywide Building Data Arrays
 !!! info ""
     🧩 Builds optimized internal arrays for storing building attributes and driving the transient heat/mass balance solver.
 
@@ -35,7 +35,7 @@ Together, these components form a cohesive workflow enabling CityBEM V2 to perfo
 
 ---
 
-## :material-database-import: Input Data Specification
+## :material-database-import: CityBEM Input Data
 
 CityBEM V2 operates using a structured collection of input files that define the full configuration of a city-scale building energy simulation.  
 These files specify the **building inventory**, **archetype definitions**, **material and thermal properties**, **meteorological conditions**, and **simulation control parameters** required by the framework.
@@ -53,9 +53,8 @@ This page provides a detailed description of each required input file, including
 
 ## 1. :material-cube-outline: Building Geometry Input
 
-### 1.1 ASCII STL Geometry  
-
-`Input_City_scale_geometry_CityBEM.stl`
+### STL Geometry  
+:material-file-document-outline: `Input_City_scale_geometry_CityBEM.stl`
 
 <figure markdown>
   ![STL Geometry Input](assets/input_geometry_stl.png){ width="100%" loading=lazy }
@@ -64,14 +63,14 @@ This page provides a detailed description of each required input file, including
 
 ---
 
-### 1.2 Purpose
+### Purpose
 
 The geometry file defines the **3D building representation** for the UBEM domain in **ASCII STL** format.  
 Each building must be stored as an individual `solid` block to ensure clean building separation and accurate surface reconstruction.
 
 ---
 
-### 1.3 Coordinate system
+### Coordinate System
 
 CityBEM uses a well-defined right-handed coordinate system:
 
@@ -89,7 +88,7 @@ Maintaining consistent coordinates ensures that solar, shading, and thermal calc
 
 ---
 
-### 1.4 STL Structure
+### STL Structure
 
 - Each building is represented as a `solid` block.  
 - Inside each block, **triangular facets** define the building surfaces.  
@@ -100,7 +99,7 @@ This structure enables robust geometry interpretation for large building stocks.
 
 ---
 
-### 1.5 Preprocessing Workflow
+### Preprocessing Workflow
 
 CityBEM includes a geometry-preprocessing tool that can:
 
@@ -119,13 +118,13 @@ This geometry file is foundational for:
 
 ---
 
-### :material-toolbox-outline: 1.6 Useful Tools
+### :material-toolbox-outline: Useful Tools
 
 Below are recommended platforms to help users **generate, edit, or validate** building geometry before importing into CityBEM.  
 
 ---
 
-#### :material-map-outline: Interactive GIS & OSM Tools
+#### :material-map-outline: Interactive GIS Tools
 
 !!! info "GeoJSON.io — Quick Editing & Export"
     An intuitive web tool for drawing or editing footprints and exporting them as **GeoJSON**, which can then be extruded into 3D.  
@@ -141,7 +140,7 @@ Below are recommended platforms to help users **generate, edit, or validate** bu
 
 ---
 
-#### :material-cube-scan: 3D Processing & Validation Tools
+#### :material-cube-scan: 3D Processing Tools
 
 !!! info "ParaView — Geometry Inspection & Surface Analysis"
     Excellent for visualizing STL files, checking mesh quality, inspecting normals, and validating triangle structure before CityBEM import.  
@@ -155,8 +154,7 @@ Below are recommended platforms to help users **generate, edit, or validate** bu
 ---
 
 ## 2. Building Stock Input Data
-
-`Input_City_scale_building_info.txt`
+:material-file-document-outline: `Input_City_scale_building_info.txt`
 
 <figure markdown>
   ![City-scale building information input](assets/input_City_scale_building_info.png){ width="100%" loading=lazy }
@@ -352,7 +350,7 @@ CityBEM V2 uses multiple archetype dimensions to describe buildings:
 
 ---
 
-### 3.1 Construction-Year Archetypes  
+### 3.1 Construction Archetypes  
 :material-file-document-outline: `Input_City_scale_archetype_year.txt`
 
 <figure markdown>
@@ -368,9 +366,9 @@ CityBEM V2 uses multiple archetype dimensions to describe buildings:
 
 ---
 
-#### :material-table: **What This File Contains**
+#### :material-table: **File Content**
 
-Each row represents a **construction-year class**, defined by either:
+Each row represents a construction-year class, defined by either:
 
 - A year interval (e.g., `1945–1975`), or  
 - A representative year (e.g., `1975`).
@@ -379,7 +377,7 @@ CityBEM uses these classes to consistently apply envelope and infiltration chara
 
 ---
 
-#### :material-air-filter: Infiltration (ACH)
+##### :material-air-filter: Infiltration
 
 | Parameter | Description |
 |----------|-------------|
@@ -391,30 +389,28 @@ CityBEM converts ACH values internally into **volumetric or mass flow rates** ba
 
 ---
 
-#### :material-home-thermometer-outline: Envelope Thermal Properties
+##### :material-home-thermometer-outline: Envelope Properties
 
 The construction-year archetype defines effective thermal characteristics used for energy balance and heat-transfer calculations.
 
-#### Envelope Types
+##### Envelope Types
 - Roof  
 - External walls  
 - Ground floor / slab  
 - Windows  
 
-#### Glazing Properties
+##### Window Properties
 - Solar Heat Gain Coefficient (SHGC)  
 - Window U-value  
 
-#### Material Thermal Properties
+##### Material Properties
 - Heat capacity (Cp, J/kg·K)  
 - Density (ρ, kg/m³)  
 - Effective thermal mass layer thickness  
-
-#### Radiative Properties
 - Shortwave absorptance (α) 
 - Longwave emissivity (ε)
 
-These govern:
+**These govern**:
 
 - Heat conduction  
 - Solar absorption  
@@ -444,8 +440,8 @@ This ensures **consistent, scalable, and physically meaningful** building charac
 
 ---
 
-## 2.2 Usage-Type Archetype  
-### `Input_City_scale_archetype_usage_type.txt`
+### 3.2 Usage Type Archetype  
+:material-file-document-outline: `Input_City_scale_archetype_usage_type.txt`
 
 <div align="center">
   <img src="assets/input_usage_type.png" alt="Usage Type Archetype Example" width="80%">
@@ -490,7 +486,7 @@ Typical columns include:
   - Window-to-wall ratio (WWR) for typical façade design per usage type
   - Heated floor area ratio (fraction of building floor area that is conditioned/heated)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - For each building, CityBEM:
   - Reads its `usage_type_code`
@@ -508,7 +504,7 @@ This file is central to **operational behavior** and has a strong influence on:
 ---
 
 ## 2.3 Slab Material Archetype  
-### `Input_City_scale_archetype_slabs_material.txt`
+:material-file-document-outline: `Input_City_scale_archetype_slabs_material.txt`
 
 <div align="center">
   <img src="assets/input_slabs_material.png" alt="Slab Material Archetype Example" width="80%">
@@ -544,7 +540,7 @@ Each row represents a **slab type**, which may be linked to specific usage types
 ---
 
 ## 2.4 External Wall Material Archetype  
-### `Input_City_scale_archetype_external_wall_material.txt`
+:material-file-document-outline: `Input_City_scale_archetype_external_wall_material.txt`
 
 <div align="center">
   <img src="assets/input_external_wall_material.png" alt="External Wall Material Archetype Example" width="80%">
@@ -565,7 +561,7 @@ Each row corresponds to a **wall material configuration**, which may be associat
   - Density (kg/m³)
   - Specific heat (J/kg·K)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - Builds an equivalent 1D conduction model for wall elements.
 - Evaluates:
@@ -578,7 +574,7 @@ Each row corresponds to a **wall material configuration**, which may be associat
 ---
 
 ## 2.5 Internal Heat Gains (IHG)  
-### `Input_City_scale_archetype_IHG.txt`
+:material-file-document-outline: `Input_City_scale_archetype_IHG.txt`
 
 <div align="center">
   <img src="assets/input_IHG.png" alt="Internal Heat Gains Example" width="80%">
@@ -606,7 +602,7 @@ Each row usually represents an **IHG case** that can be linked to a usage-type a
   - Lighting power density (W/m²)
   - Radiative vs. convective fraction of lighting gains (if considered)
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - Reads schedule IDs and mapping definitions to generate **time-varying internal loads**.
 - At each simulation timestep, the framework:
@@ -619,7 +615,7 @@ This file is essential for capturing **daily and seasonal patterns** of internal
 ---
 
 ## 2.6 Energy Sources & Emission Factors  
-### `Input_City_scale_archetype_energy_source.txt`
+:material-file-document-outline: `Input_City_scale_archetype_energy_source.txt`
 
 <div align="center">
   <img src="assets/input_energy_source.png" alt="Energy Source Archetype Example" width="80%">
@@ -643,7 +639,7 @@ This file describes how **energy carriers** (e.g., electricity, natural gas, dis
     - Lighting
     - Appliances and plug loads
 
-### How CityBEM Uses This File
+### Why this Data?
 
 - After computing energy demand and HVAC consumption, CityBEM assigns each end-use energy flow to an energy carrier.
 - The corresponding **emission factors** are applied to compute:
@@ -655,7 +651,7 @@ This enables comparison of retrofitting scenarios not only in terms of energy, b
 ---
 
 ## 2.7 Construction Materials (Embodied Emissions)  
-### `Input_City_scale_archetype_construction_materials_general.txt`
+:material-file-document-outline: `Input_City_scale_archetype_construction_materials_general.txt`
 
 <div align="center">
   <img src="assets/input_construction_materials.png" alt="Construction Materials General Archetype" width="80%">
@@ -683,8 +679,7 @@ Each row represents a **material type** commonly used in regional construction (
 ---
 
 ## 4. :material-weather-cloudy: Weather Data
-
-### **`Input_weatherdata.txt`**
+:material-file-document-outline: `Input_weatherdata.txt`
 
 <figure markdown>
   ![Weather Data Structure](assets/input_weatherdata.png){ width="100%" loading=lazy }
@@ -901,7 +896,7 @@ Wind data supports:
 # 5. Solar Position Input
 
 ## 5.1 Hourly Sun Position Data  
-### `Input_cosine_zenith.txt`
+:material-file-document-outline: `Input_cosine_zenith.txt`
 
 <figure markdown>
   ![Cosine Zenith Example](assets/input_cosine_zenith.png){ width="50%" loading=lazy }
@@ -961,7 +956,7 @@ This section collects the files and parameters that control CityBEM runs at city
 ---
 
 ### 5.1 General Settings  
-`Input_general_settings.txt`
+:material-file-document-outline: `Input_general_settings.txt`
 
 !!! abstract "Purpose"
     This file defines **global simulation flags and modes** that control how CityBEM behaves at runtime.  
@@ -989,7 +984,7 @@ This section collects the files and parameters that control CityBEM runs at city
 ---
 
 ### 5.2 City-Scale Simulation Settings
-`Input_City_scale_settings.txt`
+:material-file-document-outline: `Input_City_scale_settings.txt`
 
 <figure markdown>
   ![City-Scale Simulation Settings](assets/input_city_scale_settings.png){ width="100%" loading=lazy }
@@ -1046,8 +1041,7 @@ This file defines the **central configuration parameters** used to control CityB
 ---
 
 # 6. Result Selection
-
-## 6.1 `Input_City_scale_result_selection.txt`
+:material-file-document-outline: `Input_City_scale_result_selection.txt`
 
 <div align="center">
   <img src="assets/input_result_selection.png" alt="CityBEM Result Selection File" width="80%">

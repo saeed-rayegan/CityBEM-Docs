@@ -37,7 +37,7 @@
 
 </div>
 
-
+<!--
 **His research interests include:**
 
 - Building Energy Systems Efficiency
@@ -47,6 +47,7 @@
 - Retrofitting and Carbon Neutrality
 - Urban Building Energy Modeling (UBEM) Development
 - UBEM Coupled Outdoor Microclimate Modeling
+-->
 
 ---
 
