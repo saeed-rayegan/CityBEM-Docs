@@ -1,3 +1,25 @@
 .md-header__button.md-logo img {
     height: 36px !important;   /* default is 24px */
 }
+
+.md-header__button.md-logo img {
+    height: 36px !important;
+}
+
+/* Make the right-side TOC scrollbar thinner */
+.md-sidebar--secondary ::-webkit-scrollbar {
+    width: 6px;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.md-sidebar--secondary ::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
